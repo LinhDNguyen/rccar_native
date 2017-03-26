@@ -5,3 +5,6 @@ project(':react-native-material-kit').projectDir = new File(rootProject.projectD
 include ':app'
 include ':react-native-ble'
 project(':react-native-ble').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-ble/android')
+
+include ':react-native-joystick-view'
+project(':react-native-joystick-view').projectDir = new File(settingsDir, '../node_modules/react-native-joystick-view/android')
