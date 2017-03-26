@@ -10,14 +10,14 @@ import
   TouchableHighlight,
 } from 'react-native';
 
-class CarMoveScreen extends Component {
+class SettingScreen extends Component {
   render() {
     return (
       <View>
-        <Text>Car Move</Text>
+        <Text>Settings</Text>
       </View>
     );
   }
 }
 
-module.exports = CarMoveScreen;
+module.exports = SettingScreen;

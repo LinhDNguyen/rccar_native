@@ -14,79 +14,32 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-var Navigation = require('./DARNNavigator');
-import noble from 'react-native-ble';
+import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view';
+
+const BleSelectScreen = require('./screens/BleSelect');
+const CarMoveScreen = require('./screens/CarMove');
+const CarSoundScreen = require('./screens/CarSound');
+const SettingScreen = require('./screens/Setting');
 
 export default class RCCarNative extends Component {
   render() {
-    const routes = [
-      {title: 'First Scene', index: 0},
-      {title: 'Second Scene', index: 1},
-    ];
-    return (
-      <Navigation></Navigation>
-    );
-  }
-  componentWillMount() {
-    noble.on('stateChange', this._onStateChange);
-    noble.on('discover', this._onDiscover);
-  }
-  _onStateChange(state) {
-    if (state === 'poweredOn') {
-      console.log('Start scan.....');
-      noble.startScanning();
-    } else {
-      console.log("Stop scan....");
-      noble.stopScanning();
-    }
-  }
-
-  _onDiscover(peripheral) {
-    console.log('peripheral discovered (' + peripheral.id +
-      ' with address <' + peripheral.address +  ', ' + peripheral.addressType + '>,' +
-      ' connectable ' + peripheral.connectable + ',' +
-      ' RSSI ' + peripheral.rssi + ':');
-    console.log('\thello my local name is:');
-    console.log('\t\t' + peripheral.advertisement.localName);
-    console.log('\tcan I interest you in any of the following advertised services:');
-    console.log('\t\t' + JSON.stringify(peripheral.advertisement.serviceUuids));
-
-    var serviceData = peripheral.advertisement.serviceData;
-    if (serviceData && serviceData.length) {
-      console.log('\there is my service data:');
-      for (var i in serviceData) {
-        console.log('\t\t' + JSON.stringify(serviceData[i].uuid) + ': ' + JSON.stringify(serviceData[i].data.toString('hex')));
-      }
-    }
-
-    if (peripheral.advertisement.manufacturerData) {
-      console.log('\there is my manufacturer data:');
-      console.log('\t\t' + JSON.stringify(peripheral.advertisement.manufacturerData.toString('hex')));
-    }
-    if (peripheral.advertisement.txPowerLevel !== undefined) {
-      console.log('\tmy TX power level is:');
-      console.log('\t\t' + peripheral.advertisement.txPowerLevel);
-    }
-    console.log();
+    return <ScrollableTabView
+      style={{marginTop: 20, }}
+      renderTabBar={() => <DefaultTabBar backgroundColor='rgba(255, 255, 255, 0.7)' />}
+    >
+      <BleSelectScreen tabLabel='BLE Select' />
+      <CarMoveScreen tabLabel='Car Move'/>
+      <CarSoundScreen tabLabel='Car Sound'/>
+      <SettingScreen tabLabel='Settings' />
+    </ScrollableTabView>;
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    marginTop: 30,
   },
 });
 
